@@ -22,9 +22,11 @@ Configuration is handled by a basic JSON file. Things that can be configured are
  * twitterTokenSecret: This is your Access Token Secret
  * TwitterConsumerSecret: This is your Consumer Secret (API Secret)
 * tweetTo: This is a account (or list of accounts) that will be @ mentioned (include the @!)
+* hashtag: Pepper it with a colorful hastag. (no # needed)
 * internetSpeed: This is the speed (in MB/sec) you're paying for (and presumably not getting).
 * tweetThresholds: This is a list of messages that will be tweeted when you hit a threshold of crappiness. Placeholders are:
  * {tweetTo} - The above tweetTo configuration.
+ * {hashtag} - The above hashtag
  * {internetSpeed} - The above internetSpeed configuration.
  * {downloadResult} - The poor download speed you're getting
 
