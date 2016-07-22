@@ -135,7 +135,7 @@ class SpeedTest(threading.Thread):
         for (threshold, messages) in thresholdMessages.items():
             threshold = float(threshold)
             if speedTestResults['downloadResult'] < threshold:
-                message = messages[random.randint(0, len(messages) - 1)].replace('{tweetTo}', self.config['tweetTo']).replace('{internetSpeed}', self.config['internetSpeed']).replace('{downloadResult}', str(speedTestResults['downloadResult']))
+                message = messages[random.randint(0, len(messages) - 1)].replace('{tweetTo}', self.config['tweetTo']).replace('{internetSpeed}', self.config['internetSpeed']).replace('{downloadResult}', str(speedTestResults['downloadResult']).replace('{hashtag}', self.config['hashtag']))
 
         if message:
 
