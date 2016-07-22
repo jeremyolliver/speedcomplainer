@@ -10,6 +10,10 @@ You will need the following on your machine before you attempt this
 * sudo ln -s /usr/bin/speedtest-cli /usr/local/bin/speedtest-cli
 * optional if you are on a raspberry pi (pip install twython)
 
+## Twitter Account
+You will need to create and account with twitter http://twitter.com
+you also need to create a new app https://apps.twitter.com/
+
 ## Configuration
 Configuration is handled by a basic JSON file. Things that can be configured are:
 * twitter
@@ -58,7 +62,25 @@ CSV Logging config example:
 > python speedcomplainer.py
 
 Or to run in the background:
-
 > python speedcomplainer.py > /dev/null &
+
+
+## Known Issues
+You might run accross a few issues.
+* If you see any issues saying "AttributeError: 'module' object has no attribute 'Api'" you will need to use twython https://twython.readthedocs.io/en/latest/
+
+Replace the existing API "twitter.Api(..." with the following
+```
+    TTS=self.config['twitter']['twitterTokenSecret']
+	TCK=self.config['twitter']['twitterConsumerKey']
+	TCS=self.config['twitter']['twitterConsumerSecret']
+	TT=self.config['twitter']['twitterToken']
+			
+	api = Twython(TCK, TCS, TT, TTS)
+	
+	if api:
+        api.update_status(status=message)
+
+```
 
 
