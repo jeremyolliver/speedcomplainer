@@ -6,6 +6,7 @@ import daemon
 import signal
 import threading
 import twitter
+# from twython import Twython
 import json 
 import random
 from logger import Logger
@@ -115,7 +116,7 @@ class SpeedTest(threading.Thread):
         pingResult = resultSet[0]
         downloadResult = resultSet[1]
         uploadResult = resultSet[2]
-
+        
         pingResult = float(pingResult.replace('Ping: ', '').replace(' ms', ''))
         downloadResult = float(downloadResult.replace('Download: ', '').replace(' Mbit/s', ''))
         uploadResult = float(uploadResult.replace('Upload: ', '').replace(' Mbit/s', ''))
@@ -129,18 +130,31 @@ class SpeedTest(threading.Thread):
     def tweetResults(self, speedTestResults):
         thresholdMessages = self.config['tweetThresholds']
         message = None
+        print speedTestResults
+        
         for (threshold, messages) in thresholdMessages.items():
             threshold = float(threshold)
             if speedTestResults['downloadResult'] < threshold:
                 message = messages[random.randint(0, len(messages) - 1)].replace('{tweetTo}', self.config['tweetTo']).replace('{internetSpeed}', self.config['internetSpeed']).replace('{downloadResult}', str(speedTestResults['downloadResult']))
 
         if message:
-            api = twitter.Api(consumer_key=self.config['twitter']['twitterConsumerKey'],
+
+# 			TTS=self.config['twitter']['twitterTokenSecret']
+# 			TCK=self.config['twitter']['twitterConsumerKey']
+# 			TCS=self.config['twitter']['twitterConsumerSecret']
+# 			TT=self.config['twitter']['twitterToken']
+# 			
+# 			api = Twython(TCK, TCS, TT, TTS)
+			print message
+
+			api = twitter.Api(consumer_key=self.config['twitter']['twitterConsumerKey'],
                             consumer_secret=self.config['twitter']['twitterConsumerSecret'],
                             access_token_key=self.config['twitter']['twitterToken'],
                             access_token_secret=self.config['twitter']['twitterTokenSecret'])
-            if api:
-                status = api.PostUpdate(message)
+			if api:
+				status = api.PostUpdate(message)
+# 				api.update_status(status=message)
+                
 
 class DaemonApp():
     def __init__(self, pidFilePath, stdout_path='/dev/null', stderr_path='/dev/null'):
