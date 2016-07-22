@@ -1,6 +1,15 @@
 # speedcomplainer
 A python app that will test your internet connection and then complain to your service provider (and log to a data store if you'd like)
 
+## Prerequisites
+You will need the following on your machine before you attempt this
+* pip (sudo apt-get install python-pip) for Python 2
+* sudo pip install daemon
+* sudo pip install twitter or sudo pip install python-twitter
+* sudo apt-get install speedtest-cli
+* sudo ln -s /usr/bin/speedtest-cli /usr/local/bin/speedtest-cli
+* optional if you are on a raspberry pi (pip install twython)
+
 ## Configuration
 Configuration is handled by a basic JSON file. Things that can be configured are:
 * twitter
