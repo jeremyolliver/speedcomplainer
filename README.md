@@ -93,7 +93,7 @@ Then replace the existing API "twitter.Api(..." with the following
 
 ```
 
-* You might also run into an issue with this not parsing a float
+* You might also run into an issue with this not parsing a float depends on how the speedtest-cli returns the string
 ```
 float(downloadResult.replace('Download: ', '').replace(' Mbit/s', ''))
 ```
