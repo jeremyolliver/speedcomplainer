@@ -91,11 +91,8 @@ Then replace the existing API "twitter.Api(..." with the following
 
 ```
 
-You might also run into an issue with this not parsing a float
+* You might also run into an issue with this not parsing a float
 ```
 float(downloadResult.replace('Download: ', '').replace(' Mbit/s', ''))
 ```
-change that to add an 'S' on Mbit
-```
-float(downloadResult.replace('Download: ', '').replace(' Mbits/s', ''))
-```
+Change all instances of Mbit/s to Mbits/s
