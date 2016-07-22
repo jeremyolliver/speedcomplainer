@@ -69,7 +69,15 @@ Or to run in the background:
 You might run accross a few issues.
 * If you see any issues saying "AttributeError: 'module' object has no attribute 'Api'" you will need to use twython https://twython.readthedocs.io/en/latest/
 
-Replace the existing API "twitter.Api(..." with the following
+Replace
+``` 
+import twitter 
+```
+with 
+```
+from twython import Twython
+```
+Then replace the existing API "twitter.Api(..." with the following
 ```
     TTS=self.config['twitter']['twitterTokenSecret']
 	TCK=self.config['twitter']['twitterConsumerKey']
@@ -83,4 +91,11 @@ Replace the existing API "twitter.Api(..." with the following
 
 ```
 
-
+You might also run into an issue with this not parsing a float
+```
+float(downloadResult.replace('Download: ', '').replace(' Mbit/s', ''))
+```
+change that to add an 'S' on Mbit
+```
+float(downloadResult.replace('Download: ', '').replace(' Mbits/s', ''))
+```
