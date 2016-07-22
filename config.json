@@ -6,18 +6,19 @@
         "twitterConsumerSecret": ""
     },
     "tweetTo": "",
+    "hashtag" : "",
     "internetSpeed": "50",
     "tweetThresholds": {
         "10": [
-            "Hey {tweetTo} I'm paying for {internetSpeed}Megs but getting only {downloadResult} Megs?!? Shame.#coxcommripoff #slowinternet",
-            "Oi! {tweetTo} $70+/month for {internetSpeed}Megs and I only get {downloadResult} Megs? How does that seem fair? #coxcommripoff #slowinternet"
+            "Hey {tweetTo} I'm paying for {internetSpeed}Megs but getting only {downloadResult} Megs?!? Shame.#coxcommripoff #{hashtag}",
+            "Oi! {tweetTo} $70+/month for {internetSpeed}Megs and I only get {downloadResult} Megs? How does that seem fair? #{hashtag}"
         ],
         "20": [
-            "Uhh {tweetTo} for $70+/month I expect better than {downloadResult}Megs when I'm paying for {internetSpeed}Megs. Fix your network! #slowinternet",
-            "Hey {tweetTo} why am I only getting {downloadResult}Megs when I pay for {internetSpeed}Megs? $70+/month for this?? #coxcommripoff"
+            "Uhh {tweetTo} for $70+/month I expect better than {downloadResult}Megs when I'm paying for {internetSpeed}Megs. Fix your network! #{hashtag}",
+            "Hey {tweetTo} why am I only getting {downloadResult}Megs when I pay for {internetSpeed}Megs? $70+/month for this?? #{hashtag}"
         ],
         "30": [
-            "Well {tweetTo} I guess {downloadResult}Megs is better than nothing, still not worth $70/mnth when I expect {internetSpeed}Megs #truthinadvertising"
+            "Well {tweetTo} I guess {downloadResult}Megs is better than nothing, still not worth $70/mnth when I expect {internetSpeed}Megs #{hashtag}"
         ]
     },
     "log": {
