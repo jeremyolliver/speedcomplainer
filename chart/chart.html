@@ -8,12 +8,13 @@
          https://github.com/evanplaice/jquery-csv/tree/master/src
          -->
       <script type="text/javascript" src="jquery.csv.min.js"></script>
+      
       <script type="text/javascript">
          // Load the Visualization API and the corechart package.
 		 google.charts.load('current', {
 			 packages: ['corechart', 'line']
 		 });
-		 // 		google.charts.load('current', {'packages':['bar']});
+
 		 // Set a callback to run when the Google Visualization API is loaded.
 		 google.charts.setOnLoadCallback(initialize);
 
@@ -26,6 +27,7 @@
 					 }),
 					 formattedData = [];
 
+				 //date format my date strings
 				 for (i = 0; i < arrayData.length; i++) {
 					 var d = new Date(arrayData[i][0]),
 						 newData = [];
@@ -53,7 +55,7 @@
 
 			 // set chart options
 			 var options = {
-				 title: "Cox download speeds",
+				 title: "ISP download speeds",
 				 vAxis: {
 
 					 title: 'Download Speed (megs)'
