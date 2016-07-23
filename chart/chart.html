@@ -1,0 +1,86 @@
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<!--     <script type="text/javascript" src="http://www.google.com/uds/modules/gviz/gviz-api.js"></script> -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+
+<!--  csv jquery parser
+		https://github.com/evanplaice/jquery-csv/tree/master/src
+-->
+    <script type="text/javascript" src="jquery.csv.min.js"></script>
+    
+    
+    <script type="text/javascript">
+      
+      // Load the Visualization API and the corechart package.
+		google.charts.load('current', {packages: ['corechart', 'line']});
+// 		google.charts.load('current', {'packages':['bar']});
+		  // Set a callback to run when the Google Visualization API is loaded.
+		google.charts.setOnLoadCallback(initialize);
+      function initialize() {
+
+		$.get("speedcomplainer-master/speedresults.csv", function(csvString) {
+			  // transform the CSV string into a 2-dimensional array
+			var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar}),
+			  	formattedData =[];
+			  	
+			  for(i=0;i<arrayData.length;i++){
+			  	var d = new Date(arrayData[i][0]),
+			  		newData =[];
+			  		
+					newData.push(d);
+					newData.push(arrayData[i][1]);
+					newData.push(arrayData[i][2]);
+					newData.push(arrayData[i][3]);
+					
+					formattedData.push(newData);
+			  	
+			  }
+			  
+			  var data = new google.visualization.arrayToDataTable(formattedData,true);
+						  
+			  handleQueryResponse(data);
+			  
+		});
+	}
+
+	function handleQueryResponse(data) {	
+
+		var view = new google.visualization.DataView(data);
+      	view.setColumns([0,2]);
+      	
+	// set chart options
+     var options = {
+        title: "Cox download speeds",        
+		vAxis: {
+
+          	title: 'Download Speed (megs)'
+        },
+        hAxis: {
+        	format: 'MMM/dd/yy',
+          	title: 'Date/Time'
+        },
+        legend : 'none'
+     };
+     
+     var formatter = new google.visualization.DateFormat({pattern: "MMM/dd/yy - hh:mm:ss a"});
+
+	// Reformat our data.
+	formatter.format(data, 0);
+
+     
+		var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+     	chart.draw(view, options);
+
+      }
+      
+
+    </script>
+  </head>
+
+  <body>
+    <!--Div that will hold the pie chart-->
+    <div id="chart_div"></div>
+  </body>
+</html>
