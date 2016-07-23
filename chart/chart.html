@@ -24,24 +24,17 @@
 				 // transform the CSV string into a 2-dimensional array
 				 var arrayData = $.csv.toArrays(csvString, {
 						 onParseValue: $.csv.hooks.castToScalar
-					 }),
-					 formattedData = [];
+					 })
 
 				 //date format my date strings
 				 for (i = 0; i < arrayData.length; i++) {
-					 var d = new Date(arrayData[i][0]),
-						 newData = [];
+				 	 var speedArray = arrayData[i],
+				 	 	 d = new Date(speedArray[0]);
 
-					 newData.push(d);
-					 newData.push(arrayData[i][1]);
-					 newData.push(arrayData[i][2]);
-					 newData.push(arrayData[i][3]);
-
-					 formattedData.push(newData);
-
+					 speedArray[0]= d ;
 				 }
 
-				 var data = new google.visualization.arrayToDataTable(formattedData, true);
+				 var data = new google.visualization.arrayToDataTable(arrayData, true);
 
 				 handleQueryResponse(data);
 
