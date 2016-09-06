@@ -9,6 +9,7 @@ You will need the following on your machine before you attempt this
 * sudo apt-get install speedtest-cli
 * sudo ln -s /usr/bin/speedtest-cli /usr/local/bin/speedtest-cli
 * optional if you are on a raspberry pi (pip install twython)
+* if you have issues with speedtest-cli you can install the latest from source via: `sudo pip install git+https://github.com/sivel/speedtest-cli.git --upgrade`
 
 ## Twitter Account
 You will need to create and account with twitter http://twitter.com
@@ -47,7 +48,7 @@ Threshold Example (remember to limit your messages to 140 characters or less!):
     }
 ```
 
-Logging can be done to CSV files, with a log file for ping results and speed test results. 
+Logging can be done to CSV files, with a log file for ping results and speed test results.
 
 CSV Logging config example:
 ```
@@ -72,10 +73,10 @@ You might run accross a few issues.
 * If you see any issues saying "AttributeError: 'module' object has no attribute 'Api'" you will need to use twython https://twython.readthedocs.io/en/latest/
 
 Replace
-``` 
-import twitter 
 ```
-with 
+import twitter
+```
+with
 ```
 from twython import Twython
 ```
@@ -85,9 +86,9 @@ Then replace the existing API "twitter.Api(..." with the following
 	TCK=self.config['twitter']['twitterConsumerKey']
 	TCS=self.config['twitter']['twitterConsumerSecret']
 	TT=self.config['twitter']['twitterToken']
-			
+
 	api = Twython(TCK, TCS, TT, TTS)
-	
+
 	if api:
         api.update_status(status=message)
 
