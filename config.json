@@ -26,8 +26,8 @@
     "log": {
         "type": "csv",
         "files": {
-            "ping": "pingresults.csv",
-            "speed": "speedresults.csv"
+            "ping": "log/pingresults.csv",
+            "speed": "log/speedresults.csv"
         }
     }
 }
