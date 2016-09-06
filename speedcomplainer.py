@@ -7,7 +7,7 @@ import signal
 import threading
 import twitter
 # from twython import Twython
-import json 
+import json
 import random
 from logger import Logger
 
@@ -49,13 +49,14 @@ class Monitor():
     def __init__(self):
         self.lastPingCheck = None
         self.lastSpeedTest = None
+        self.config = json.load(open('./config.json'))
 
     def run(self):
-        if not self.lastPingCheck or (datetime.now() - self.lastPingCheck).total_seconds() >= 60:
+        if not self.lastPingCheck or (datetime.now() - self.lastPingCheck).total_seconds() >= self.config['ping']['frequency']:
             self.runPingTest()
             self.lastPingCheck = datetime.now()
 
-        if not self.lastSpeedTest or (datetime.now() - self.lastSpeedTest).total_seconds() >= 3600:
+        if not self.lastSpeedTest or (datetime.now() - self.lastSpeedTest).total_seconds() >= self.config['speed']['frequency']:
             self.runSpeedTest()
             self.lastSpeedTest = datetime.now()
 
@@ -77,11 +78,13 @@ class PingTest(threading.Thread):
         self.logger = Logger(self.config['log']['type'], { 'filename': self.config['log']['files']['ping'] })
 
     def run(self):
+        if not self.config['ping']['enabled']:
+            return False
         pingResults = self.doPingTest()
         self.logPingResults(pingResults)
 
     def doPingTest(self):
-        response = os.system("ping -c %s -W %s -w %s 8.8.8.8 > /dev/null 2>&1" % (self.numPings, (self.pingTimeout * 1000), self.maxWaitTime))
+        response = os.system("ping -c %s -W %s -w %s %s > /dev/null 2>&1" % (self.numPings, (self.pingTimeout * 1000), self.maxWaitTime, self.config['ping']['ip_address']))
         success = 0
         if response == 0:
             success = 1
@@ -97,13 +100,16 @@ class SpeedTest(threading.Thread):
         self.logger = Logger(self.config['log']['type'], { 'filename': self.config['log']['files']['speed'] })
 
     def run(self):
+        if not self.config['speed']['enabled']:
+            return False
         speedTestResults = self.doSpeedTest()
         self.logSpeedTestResults(speedTestResults)
         self.tweetResults(speedTestResults)
 
     def doSpeedTest(self):
         # run a speed test
-        result = os.popen("/usr/local/bin/speedtest-cli --simple").read()
+        speedtest_cli = self.config['speed']['bin_path'] or '/usr/local/bin/speedtest-cli'
+        result = os.popen("%s --simple" % (speedtest_cli)).read()
         if 'Cannot' in result:
             return { 'date': datetime.now(), 'uploadResult': 0, 'downloadResult': 0, 'ping': 0 }
 
@@ -116,7 +122,7 @@ class SpeedTest(threading.Thread):
         pingResult = resultSet[0]
         downloadResult = resultSet[1]
         uploadResult = resultSet[2]
-        
+
         pingResult = float(pingResult.replace('Ping: ', '').replace(' ms', ''))
         downloadResult = float(downloadResult.replace('Download: ', '').replace(' Mbit/s', ''))
         uploadResult = float(uploadResult.replace('Upload: ', '').replace(' Mbit/s', ''))
@@ -128,10 +134,12 @@ class SpeedTest(threading.Thread):
 
 
     def tweetResults(self, speedTestResults):
+        if not self.config['speed']['tweet_results']:
+            return False
         thresholdMessages = self.config['tweetThresholds']
         message = None
         print speedTestResults
-        
+
         for (threshold, messages) in thresholdMessages.items():
             threshold = float(threshold)
             if speedTestResults['downloadResult'] < threshold:
@@ -143,7 +151,7 @@ class SpeedTest(threading.Thread):
 # 			TCK=self.config['twitter']['twitterConsumerKey']
 # 			TCS=self.config['twitter']['twitterConsumerSecret']
 # 			TT=self.config['twitter']['twitterToken']
-# 			
+#
 # 			api = Twython(TCK, TCS, TT, TTS)
 			print message
 
@@ -154,7 +162,7 @@ class SpeedTest(threading.Thread):
 			if api:
 				status = api.PostUpdate(message)
 # 				api.update_status(status=message)
-                
+
 
 class DaemonApp():
     def __init__(self, pidFilePath, stdout_path='/dev/null', stderr_path='/dev/null'):

@@ -1,4 +1,15 @@
 {
+    "ping": {
+      "enabled": true,
+      "ip_address": "8.8.8.8",
+      "frequency": 60
+    },
+    "speed":{
+      "enabled": true,
+      "frequency": 3600,
+      "tweet_results": false,
+      "bin_path": "/usr/local/bin/speedtest_cli"
+    },
     "twitter": {
         "twitterToken": "",
         "twitterConsumerKey": "",
@@ -9,7 +20,7 @@
     "hashtag" : "",
     "internetSpeed": "50",
     "tweetThresholds": {
-        
+
         "10": [
             "Hey {tweetTo} I'm paying for {internetSpeed}Megs but only getting {downloadResult} Megs?!? Shame. #{hashtag}",
             "Oy! {tweetTo} $70+/month for {internetSpeed}Megs, and I'm only getting {downloadResult} Megs? How does that seem fair? #{hashtag}"
